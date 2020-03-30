@@ -1,26 +1,67 @@
-const desktop_view = {
+"use strict";
+
+const categoryListView = {
 	"rows": [
 		{
 			"css": "webix_dark",
 			"view": "toolbar",
 			"cols": [
-				{ "layout": "x", "type": { "subsign": false },
-					"view": "menu",
+				{
+					"view": "button",
+					"type": "icon",
+					"icon": "wxi-angle-double-left",
+					"label": "",
 					"height": 0,
-					"data": [
-						{
-							"value": "Меню",
-							"submenu": [
-								{ "value": "Категории", href:"category_list.html" },
-								{ "value": "Бюджеты" },
-								{ "value": "Движения" },
-								{ "value": "Отчёт" }
-							]
-						}
-					]
+					"name": "btnGotoDesktop",
+					"width": 38,
+					"click": function(){
+						document.location.href = "desktop.html";
+					}
 				},
-				{ "view": "label", "label": "Категории", "align": "center", "gravity": 1 },
-				{ "view": "label", "height": 0, "borderless": 1 }
+				{
+					"view": "button",
+					"type": "icon",
+					"icon": "wxi-plus",
+					"label": "",
+					"height": 0,
+					"name": "btnCategoryAdd",
+					"width": 38,
+					"click": function(){
+						showForm("categoryEditWindow", 0, 0)
+					}
+				},
+				{
+					"view": "button",
+					"type": "icon",
+					"icon": "wxi-pencil",
+					"label": "",
+					"height": 0,
+					"name": "btnCategoryEdit",
+					"width": 38,
+					"click": function(){
+						showForm("categoryEditWindow", 0, 0)
+					}
+				},
+				{
+					"view": "button",
+					"type": "icon",
+					"icon": "wxi-trash",
+					"label": "",
+					"height": 0,
+					"name": "btnCategoryDel",
+					"width": 38,
+					"click": function(){
+						webix.confirm({
+							title:"Внимание!",
+							type:"confirm-warning",
+							text:"Вы уверены, что хотите удалить категорию?"
+						})
+						.then(function(){
+							alert("trash!");
+						});
+					}
+				},
+				{ "view": "label", "label": "Категории", "align": "center" }
 			]
 		},
 		{
@@ -47,6 +88,15 @@ const desktop_view = {
 
 window.onload = function() {
 	webix.ready(function(){
-		webix.ui(desktop_view);
+		webix.ui(categoryListView);
+		webix.ui({
+		    view:"window",
+		    id:"categoryEditWindow",
+		    width:400,
+		    position:"center",
+		    modal:true,
+		    head:"Редактируем группу",
+		    body:webix.copy(categoryEditForm)
+		});
 	});
 }

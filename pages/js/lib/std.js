@@ -72,6 +72,55 @@ function html_post_json(url,json_str,onrecieve)
     h.send( json_str );
 }
 
+function try_http_post(url,post_param) {
+    try {
+        return http_post(url,post_param);
+    } catch(e) {
+        let err_msg = "<b>" + e.name + "</b><br />" + e.message;
+        webix.message(err_msg, "error");
+    }
+
+    return false;
+}
+
+// post_param = {};
+// post_param['par1'] = val1;
+// . . .
+// post_param['parN'] = valN;
+function http_post(url,post_param)
+{
+    var msg = "";
+
+    for (var param_name in post_param)
+    {
+      msg = msg +
+          '--boundary\r\n' +
+          'Content-disposition: form-data; name="' + param_name + '"\r\n\r\n'+
+          post_param[param_name]+'\r\n';
+    }
+
+    msg = msg + '--boundary\r\n';
+
+    var h = getXmlHttp();
+    h.open('POST', url, false);
+    h.setRequestHeader("Content-Type","multipart/form-data; charset=utf8; boundary=boundary");
+    h.setRequestHeader("Content-Length",msg.length);
+
+    h.send( msg );
+
+    if(h.status == 200) {
+        return h.responseText;
+    } else {
+        throw {
+            name: "Ответ сервера"
+            , message: "Код ошибки: " + h.status + "<br />" + h.responseText
+            , code: 0
+        };
+    }
+
+    return false;
+}
+
 function getXmlHttp(){
     var xmlhttp;
 

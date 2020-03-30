@@ -18,4 +18,18 @@
             { "name" : "p", "type" : "int", "default" : "0" }
         ]
     }
+    ,{
+        "cmd_name": "entity.category_merge",
+        "db_proc_name": "Entity.CategoryMerge",
+        "call_method": "POST",
+        "parameters": [
+            { "name" : "categoryId", "type" : "int" }
+            ,{ "name" : "categoryParentId", "type" : "int" }
+            ,{ "name" : "categoryName", "type" : "string" }
+            ,{ "name" : "isGroup", "type" : "int" }
+            ,{ "name" : "isVisible", "type" : "int" }
+            ,{ "name" : "sort", "type" : "int" }
+            ,{ "name" : "plusOrMinus", "type" : "string" }
+        ]
+    }
 ]
